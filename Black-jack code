@@ -1,0 +1,165 @@
+import random
+class Deck():
+    r2='ace'
+    suit=['spade','hearts','diamond','clubs']
+    type_c=['2','3','4','5','6','7','8','9','10','jack','queen','king','ace']
+    value=['2','3','4','5','6','7','8','9','10','10','10','10','1']
+    def __init__(self):
+        print("\n")
+        
+    def random_choose(self):
+        r1=random.choices(self.suit)
+        r2=random.choices(self.type_c)
+        return f"{r2[0]} of {r1[0]} "
+    def value1(self,a):
+        if a in ['2','3','4','5','6','7','8','9','10']:
+            value=int(a)
+        elif a=='ace':
+            value=11
+        else:
+            value=10
+        return value
+deck=Deck()
+
+class Game(Deck):
+    
+    
+    def __init__(self,who,val):
+        self.who=who
+        self.val=val
+    def win(self):
+        if self.val==21:
+            return "Won"
+        else:
+            return "continue"
+    
+    def hit(self):
+            p3=deck.random_choose()
+            print(f"\n\nThe new card of {self.who} is {p3} \n\n")
+            self.val+=deck.value1(p3.split()[0])
+            return self.val
+        
+    def bust(self):
+        if self.val>21:
+            print(f"The {self.who} got busted")
+            return True
+        else:
+            return False
+            
+print("\t\t\t\t Welcome to Black-Jack")
+x=int(input("\nEnter the Amount of money you have: $"))
+y=int(input("\n\nEnter the Amount of money for your stake: $"))
+d='Dealer'
+p='Player'
+while (x>0 and y>0 and x>=y):
+    
+   
+    p1=deck.random_choose()
+    p2=deck.random_choose()
+    pc1=deck.random_choose()
+    pc2=deck.random_choose()
+    print(f"\n\n\n\nThe cards of dealer are: **HIDDEN** and {pc2}")
+    print(f"\n\n\n\nThe cards of player are: {p1} and {p2}")
+    val_c1=deck.value1(pc1.split()[0])+deck.value1(pc2.split()[0])
+    val_p1=deck.value1(p1.split()[0])+deck.value1(p2.split()[0])
+    while True:
+        game_c=Game(d,val_c1)
+        game_p=Game(p,val_p1)
+        
+        if val_c1>17:
+            if val_c1==val_p1:
+                print("Match Tied")
+                break
+        
+        
+        
+        if game_p.bust()==True:
+            x-=y
+            break
+        if game_p.win()=='Won':
+            print("The player won the game\n\n")
+            x+=y
+            break
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        if game_c.bust()==True:
+            x+=y
+            break
+        if game_c.win()=='Won':
+            print("The dealer won the game\n\n")
+            x-=y
+            break
+        #Player chance:
+        x1=input("\n\nPlayer please enter your choice: Hit or Stand ").upper()
+        while (x1!='HIT'and x1!='STAND'):
+            print("You entered a wrong choice")
+            x1=input("\n\nPlayer please enter your choice: Hit or Stand ").upper()
+        if x1=="HIT":
+            val_p1=game_p.hit()
+            if game_p.bust()==True:
+                x-=y
+                break
+            if game_p.win()=='Won':
+                print("\n\nThe player won the game\n\n")
+                x+=y
+                break
+    
+    
+    #dealer chance
+        val_c1=game_c.hit()
+        if game_c.bust()==True:
+            x+=y
+            break
+        if game_c.win()=='Won':
+            print("\n\nThe dealer won the game\n\n")
+            x-=y
+            break
+        if val_c1>17:
+            if val_c1<val_p1:
+                print("\n\nThe player won the game")
+                x+=y
+                break
+            elif val_c1>val_p1:
+                print("\n\nThe dealer won the game")
+                x-=y
+                break
+            else:
+                print("\n\nmatch tied")
+                break
+    print(f"\n\nYour current amount of money is ${x} \n\n")
+    if not(x>0):
+        break
+    g=input("\n\nDo you want to play again : Yes or No ").lower()
+    while not(g=='yes' or g=='no'):
+        print("You entered a wrong choice")
+        g=input("\n\nDo you want to play again : Yes or No ").lower()
+    if g=='yes':
+        y=int(input("\n\nEnter the Amount of money for your stake: $"))
+    else:
+        break
+if x<y or x==0:
+    print("You dont have enough money")
+print("\n\nThank you for playing game")
+            
+        
+   
+        
+      
+        
+   
+        
+    
+    
+    
+
+
+
+
+
