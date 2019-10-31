@@ -59,7 +59,7 @@ while z==True:
         pc1=deck.random_choose()
         pc2=deck.random_choose()
         print(f"\n\n\n\nThe cards of dealer are: {pc1} and ***")
-        print(f"\n\n\n\nThe cards of player are: {p1} and ***")
+        print(f"\n\n\n\nThe cards of player are: {p1} and {p2}")
         val_c1=deck.value1(pc1.split()[0])+deck.value1(pc2.split()[0])
         val_p1=deck.value1(p1.split()[0])+deck.value1(p2.split()[0])
         z=True
