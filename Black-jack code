@@ -51,45 +51,48 @@ x=int(input("\nEnter the Amount of money you have: $"))
 y=int(input("\n\nEnter the Amount of money for your stake: $"))
 d='Dealer'
 p='Player'
-while (x>0 and y>0 and x>=y):
-    
-   
-    p1=deck.random_choose()
-    p2=deck.random_choose()
-    pc1=deck.random_choose()
-    pc2=deck.random_choose()
-    print(f"\n\n\n\nThe cards of dealer are: **HIDDEN** and {pc2}")
-    print(f"\n\n\n\nThe cards of player are: {p1} and {p2}")
-    val_c1=deck.value1(pc1.split()[0])+deck.value1(pc2.split()[0])
-    val_p1=deck.value1(p1.split()[0])+deck.value1(p2.split()[0])
+z=True
+while z==True:
+    if (x>0 and y>0 and x>=y):
+        p1=deck.random_choose()
+        p2=deck.random_choose()
+        pc1=deck.random_choose()
+        pc2=deck.random_choose()
+        print(f"\n\n\n\nThe cards of dealer are: {pc1} and ***")
+        print(f"\n\n\n\nThe cards of player are: {p1} and ***")
+        val_c1=deck.value1(pc1.split()[0])+deck.value1(pc2.split()[0])
+        val_p1=deck.value1(p1.split()[0])+deck.value1(p2.split()[0])
+        z=True
+    else:
+        print("You entered a wrong amount of money ")
+        break
     while True:
+        o=True
+        s=True
         game_c=Game(d,val_c1)
         game_p=Game(p,val_p1)
-        
         if val_c1>17:
             if val_c1==val_p1:
                 print("Match Tied")
                 break
-        
-        
-        
+            elif val_c1>val_p1:
+                print("The dealer won the game\n\n")
+                x-=y
+                break
+            else: 
+                print("The player won the game\n\n")
+                x+=y
+                break
         if game_p.bust()==True:
+            print("The player got busted\n\n")
             x-=y
             break
         if game_p.win()=='Won':
             print("The player won the game\n\n")
             x+=y
             break
-            
-            
-            
-            
-        
-        
-        
-        
-        
         if game_c.bust()==True:
+            print("The Dealer got busted\n\n")
             x+=y
             break
         if game_c.win()=='Won':
@@ -101,51 +104,64 @@ while (x>0 and y>0 and x>=y):
         while (x1!='HIT'and x1!='STAND'):
             print("You entered a wrong choice")
             x1=input("\n\nPlayer please enter your choice: Hit or Stand ").upper()
-        if x1=="HIT":
+        while x1=="HIT":
             val_p1=game_p.hit()
             if game_p.bust()==True:
+                o=False
                 x-=y
                 break
-            if game_p.win()=='Won':
+            elif game_p.win()=='Won':
                 print("\n\nThe player won the game\n\n")
+                o=False
                 x+=y
-                break
-    
-    
-    #dealer chance
-        val_c1=game_c.hit()
-        if game_c.bust()==True:
-            x+=y
-            break
-        if game_c.win()=='Won':
-            print("\n\nThe dealer won the game\n\n")
-            x-=y
-            break
-        if val_c1>17:
-            if val_c1<val_p1:
-                print("\n\nThe player won the game")
-                x+=y
-                break
-            elif val_c1>val_p1:
-                print("\n\nThe dealer won the game")
-                x-=y
                 break
             else:
-                print("\n\nmatch tied")
-                break
-    print(f"\n\nYour current amount of money is ${x} \n\n")
-    if not(x>0):
+                x1=input("\n\nPlayer please enter your choice: Hit or Stand ").upper()
+                while (x1!='HIT'and x1!='STAND'):
+                    print("You entered a wrong choice")
+                    x1=input("\n\nPlayer please enter your choice: Hit or Stand ").upper()
+        if o==True:
+            while val_c1<17:
+                val_c1=game_c.hit()
+                if game_c.bust()==True:
+                    x+=y
+                    s=False
+                    break
+                if game_c.win()=='Won':
+                    print("\n\nThe dealer won the game\n\n")
+                    s=False
+                    x-=y
+                    break
+            if s==True:
+                if val_c1<val_p1:
+                    print("\n\nThe player won the game")
+                    x+=y
+                    break
+                elif val_c1>val_p1:
+                    print("\n\nThe dealer won the game")
+                    x-=y
+                    break
+                else:
+                    print("\n\nmatch tied")
+                    break
         break
+    print(f"\n\n\n\nThe cards of dealer in starting were : {pc1} and {pc2}")
+    print(f"\n\n\n\nThe cards of player in starting were : {p1} and {p2}")
+    print(f"\n\nYour current amount of money is ${x} \n\n")
     g=input("\n\nDo you want to play again : Yes or No ").lower()
-    while not(g=='yes' or g=='no'):
+    while (g!='yes' and g!='no'):
         print("You entered a wrong choice")
         g=input("\n\nDo you want to play again : Yes or No ").lower()
     if g=='yes':
         y=int(input("\n\nEnter the Amount of money for your stake: $"))
+        z=True
     else:
+        z=False
         break
-if x<y or x==0:
-    print("You dont have enough money")
+    if x<y or x==0:
+        print("You dont have enough money")
+        z=False
+        break
 print("\n\nThank you for playing game")
             
         
@@ -160,6 +176,4 @@ print("\n\nThank you for playing game")
     
 
 
-
-
-
+    
